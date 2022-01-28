@@ -137,7 +137,7 @@ namespace DBDemo3
 //platsen har eluttag)=KLAR
 //◦3. Kunna växla mellan olika städer och parkeringshus för att se vilka platser som är lediga =KLAR
 
-//◦4. Kunna välja en bil och ett parkeringshus + plats för att parkera bilen
+//◦4. Kunna välja en bil och ett parkeringshus + plats för att parkera bilen=KLAR
 //◦ 5.Kunna välja en bil för att “köra iväg” bilen
 //◦ 6.Kunna lägga till ny bil, via inmatning=KLAR
 

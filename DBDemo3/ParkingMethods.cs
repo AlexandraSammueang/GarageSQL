@@ -14,6 +14,7 @@ namespace DBDemo3
         static string connString = "data source =.\\; initial catalog= parking2; persist security info=true; integrated security = true;";
 
         public string LedigaPlatser { get; set; }
+        public int Slot { get; set; }
 
         public static void ChooseParkingHouse()
         {
@@ -96,5 +97,51 @@ namespace DBDemo3
             }
 
         }
+        public static void FindEmptyParkingSpot()
+        {
+            string parkingHouseId = Console.ReadLine();
+            try
+            {
+                Convert.ToInt32(parkingHouseId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            var sql = $@"SELECT
+                c.CityName,
+                ph.HouseName,
+                ps.Id AS Slot,
+                ps.Id AS SlotId
+            FROM
+               Cities c
+             JOIN
+             ParkingHouses ph ON ph.CityId = c.Id
+             JOIN
+             ParkingSlots ps ON ph.Id = ps.ParkingHouseId
+             LEFT JOIN
+             Cars car ON ps.Id = car.ParkingSlotsId
+             WHERE
+             car.ParkingSlotsId IS NULL and ph.id = {parkingHouseId}";
+
+            Console.WriteLine("Följande platser är lediga i garaget; \n");
+            var emptySlots = new List<ParkingMethods>();
+
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+
+                emptySlots = connection.Query<ParkingMethods>(sql).ToList();
+            }
+            foreach (var empty in emptySlots)
+            {
+                Console.WriteLine($"{empty.Slot}");
+            }
+            Console.WriteLine();
+            Console.WriteLine("Välj en plats att parkera på");
+        }
+
     }
+
 }
